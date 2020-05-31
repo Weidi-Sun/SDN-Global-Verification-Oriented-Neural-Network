@@ -14,6 +14,7 @@ from multpro_back_pro import satisfy
 from multpro_back_pro import shake
 from multpro_back_pro import bringIn
 from multpro_back_pro import Substitution
+from multpro_back_pro import max_dis
 import multiprocessing
 from multiprocessing import Process
 from net_model import Net
@@ -23,6 +24,8 @@ class group:
         self.mem = mem
         self.v = 0
         self.index = index
+        self.center = None
+        self.R = None
 
 
 class Result:
@@ -317,7 +320,21 @@ def ConnectionDescription(original_cons,configs,tree,ONet,net,g_info,pool_size):
             i = _min_back
 
 
-
+    for _group in groupList:
+        center  = None
+        total_contain = []
+        for index in range(len(_group.mem)):
+            vertex = _group.mem[index]
+            if index == 0:
+                center = vertex.center*vertex.v
+            else:
+                center += vertex.center*vertex.v
+            total_contain += vertex.contain
+        center = center/_group.v
+        _group.center = center
+        total_contain = np.array(total_contain)
+        R = max_dis(center,total_contain)
+        _group.R = R
     return tree,groupList,pointList
 
 
@@ -382,6 +399,7 @@ if __name__ == "__main__":
     tree = pickle.load(TREE)
 
     tree, groupList ,pointList=  ConnectionDescription(cons,configs,tree,ONet,net,g_info,pool_size=1024)
+
 
     with open('output.txt', 'a') as f:
         print('description finished', file=f)

@@ -223,7 +223,7 @@ def shake(classify_cons, node, configs, g_info, ONet, test_num, total_possible):
 
     for i in upper_b:
         if i[0] >= i[1]:
-            return None, [None], None
+            return None, [None], None,None,None,None
         else:
             upper_v *= (i[1] - i[0])
     rand_list = []

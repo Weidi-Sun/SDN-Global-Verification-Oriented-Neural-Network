@@ -337,6 +337,16 @@ def ConnectionDescription(original_cons,configs,tree,ONet,net,g_info,pool_size):
         _group.R = R
     return tree,groupList,pointList
 
+def select(R,r, groupList ,pointList):
+    small_size_isolated = []
+    protruding_region = []
+    for i in groupList:
+        if i.R<R:
+            small_size_isolated.append(i)
+    for j in pointList:
+        if j.r<r:
+            protruding_region.append(j)
+    return small_size_isolated,protruding_region
 
 if __name__ == "__main__":
     ONet = torch.load('model/net.pkl')
@@ -397,9 +407,11 @@ if __name__ == "__main__":
     configs = [{"min": 0, "max": 1} for i in range(2)]
     TREE = open("TREE", "rb")
     tree = pickle.load(TREE)
-
+    
     tree, groupList ,pointList=  ConnectionDescription(cons,configs,tree,ONet,net,g_info,pool_size=1024)
-
+    small_size_isolated_connected_component, protruding_region = select(0.1,0.2, groupList,pointList)
+    print(small_size_isolated_connected_component)
+    print(protruding_region)
 
     with open('output.txt', 'a') as f:
         print('description finished', file=f)

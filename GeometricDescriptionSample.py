@@ -418,7 +418,7 @@ if __name__ == "__main__":
     cons = [[[1, -1, 0]]
             ]
     configs = [{"min": 0, "max": 1} for i in range(2)]
-    '''TREE = open("TREE", "rb")
+    '''TREE = open("rule_TREE", "rb")
     tree = pickle.load(TREE)'''
     tree = multpro_back_pro.MAIN(ONet, net, cons, layer, g_info, configs, pool_size=1024)
     tree, groupList ,pointList=  ConnectionDescription(cons,configs,tree,ONet,net,g_info,pool_size=1024)

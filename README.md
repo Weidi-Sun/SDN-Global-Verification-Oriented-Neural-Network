@@ -1,2 +1,3 @@
-# SDN-Global-Verification-Oriented-Neural-Network
+# Global Robustness Verification Networks
 The train and verification algorithm of SDN
+
